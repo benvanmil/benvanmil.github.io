@@ -4,135 +4,569 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Group 18 — CISC 322 Term Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f7f7f5;
-    --card: #ffffff;
-    --text: #1c1c1c;
-    --muted: #5a5a5a;
-    --accent: #2b4c8c;
-    --border: #e2e2df;
+    --bg:        #0a0e14;
+    --bg-glow:   #101823;
+    --panel:     #121a24;
+    --panel-2:   #16202c;
+    --border:    #233040;
+    --border-lit:#2f4055;
+    --text:      #e6edf3;
+    --muted:     #8a9bb0;
+    --accent:    #4ec9b0;
+    --accent-2:  #58a6ff;
+    --accent-3:  #c792ea;
+    --amber:     #e3b341;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   }
+
   * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-family: var(--sans);
     background: var(--bg);
     color: var(--text);
-    line-height: 1.5;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(900px 500px at 12% -10%, rgba(78, 201, 176, 0.14), transparent 70%),
+      radial-gradient(1000px 600px at 92% 0%, rgba(88, 166, 255, 0.12), transparent 70%),
+      linear-gradient(var(--bg), var(--bg-glow));
+    background-attachment: fixed;
   }
-  header {
-    background: var(--accent);
-    color: #fff;
-    padding: 2.5rem 1.5rem;
-    text-align: center;
-  }
-  header h1 { margin: 0 0 0.4rem; font-size: 1.9rem; }
-  header p { margin: 0; opacity: 0.9; }
-  main {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
-  }
-  section {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem 1.75rem;
-    margin-bottom: 1.5rem;
-  }
-  h2 {
-    margin-top: 0;
-    font-size: 1.2rem;
-    color: var(--accent);
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.5rem;
-  }
-  ul { padding-left: 1.2rem; margin: 0.5rem 0; }
-  li { margin-bottom: 0.4rem; }
-  table {
+
+  .wrap {
     width: 100%;
-    border-collapse: collapse;
+    max-width: 1680px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 4.5rem);
   }
-  th, td {
-    text-align: left;
-    padding: 0.5rem 0.4rem;
+
+  /* ---------- header ---------- */
+
+  header {
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(18, 26, 36, 0.85), rgba(10, 14, 20, 0.2));
+    padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(2rem, 4vw, 3.5rem);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--border-lit);
+    background: rgba(78, 201, 176, 0.07);
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+  }
+  .eyebrow .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+  }
+  header h1 {
+    margin: 1.25rem 0 0.75rem;
+    font-size: clamp(2.2rem, 5.5vw, 4.25rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    max-width: 22ch;
+  }
+  header h1 .grad {
+    background: linear-gradient(100deg, var(--accent), var(--accent-2) 55%, var(--accent-3));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .lede {
+    margin: 0;
+    max-width: 68ch;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: var(--muted);
+  }
+  .meta-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 2.5rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px dashed var(--border);
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .meta-strip b { color: var(--text); font-weight: 500; }
+
+  /* ---------- layout ---------- */
+
+  main { padding: clamp(2.5rem, 5vw, 4rem) 0 5rem; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin: 0 0 1.5rem;
+  }
+  .section-head h2 {
+    margin: 0;
+    font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+  .section-head .tag {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .section-head::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  section { margin-bottom: clamp(3rem, 5vw, 4.5rem); }
+
+  /* ---------- member tiles ---------- */
+
+  .members {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  .member {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.35rem 1.4rem;
+    background: linear-gradient(160deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .member::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: var(--role-color, var(--border-lit));
+  }
+  .member:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-lit);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.42);
+  }
+  .avatar {
+    flex: none;
+    width: 52px; height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    color: var(--role-color, var(--text));
+    background: color-mix(in srgb, var(--role-color, #8a9bb0) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--role-color, #8a9bb0) 35%, transparent);
+  }
+  .member .who { min-width: 0; }
+  .member .name {
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .member .surname { color: var(--muted); font-weight: 400; }
+  .badge {
+    display: inline-block;
+    margin-top: 0.35rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    color: var(--role-color, var(--muted));
+    background: color-mix(in srgb, var(--role-color, #8a9bb0) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--role-color, #8a9bb0) 30%, transparent);
+  }
+  .member.lead      { --role-color: var(--amber); }
+  .member.presenter { --role-color: var(--accent-2); }
+  .member.dev       { --role-color: var(--accent); }
+
+  /* ---------- system + links split ---------- */
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    align-items: start;
+  }
+
+  .panel {
+    background: linear-gradient(160deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: clamp(1.5rem, 2.2vw, 2rem);
+  }
+
+  .terminal {
+    padding: 0;
+    overflow: hidden;
+    font-family: var(--mono);
+  }
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid var(--border);
   }
-  th { color: var(--muted); font-weight: 600; font-size: 0.9rem; }
-  a { color: var(--accent); }
-  .note {
-    font-size: 0.85rem;
+  .term-bar span.light { width: 11px; height: 11px; border-radius: 50%; }
+  .l1 { background: #ff5f57; } .l2 { background: #febc2e; } .l3 { background: #28c840; }
+  .term-bar .title {
+    margin-left: 0.6rem;
+    font-size: 0.78rem;
     color: var(--muted);
-    font-style: italic;
   }
-  footer {
-    text-align: center;
+  .term-body { padding: 1.4rem 1.5rem 1.6rem; font-size: 0.92rem; }
+  .term-body .line { margin-bottom: 0.45rem; }
+  .prompt { color: var(--accent); }
+  .cmd { color: var(--text); }
+  .out { color: var(--muted); font-family: var(--sans); }
+  .out strong { color: var(--text); }
+  .cursor {
+    display: inline-block;
+    width: 9px; height: 1.05em;
+    background: var(--accent);
+    vertical-align: text-bottom;
+    animation: blink 1.15s steps(2, start) infinite;
+  }
+  @keyframes blink { to { visibility: hidden; } }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.1rem; }
+  .chip {
+    font-family: var(--mono);
+    font-size: 0.72rem;
     color: var(--muted);
-    font-size: 0.85rem;
-    padding-bottom: 2rem;
+    border: 1px solid var(--border);
+    background: rgba(0,0,0,0.25);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+  }
+
+  .links { display: grid; gap: 0.6rem; }
+  .link-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: rgba(0, 0, 0, 0.18);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.16s ease, background 0.16s ease, transform 0.16s ease;
+  }
+  .link-row:hover {
+    border-color: var(--accent-2);
+    background: rgba(88, 166, 255, 0.08);
+    transform: translateX(3px);
+  }
+  .link-row .label { font-weight: 600; font-size: 0.95rem; }
+  .link-row .url {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .link-row .arrow { margin-left: auto; color: var(--muted); font-family: var(--mono); }
+  .link-row:hover .arrow { color: var(--accent-2); }
+
+  /* ---------- deliverables ---------- */
+
+  .deliverables {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+  .card {
+    position: relative;
+    padding: 1.5rem 1.4rem;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: linear-gradient(160deg, var(--panel-2), var(--panel));
+    transition: border-color 0.18s ease, transform 0.18s ease;
+  }
+  .card:hover { border-color: var(--border-lit); transform: translateY(-3px); }
+  .card .code {
+    font-family: var(--mono);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent-3);
+    letter-spacing: -0.02em;
+  }
+  .card h3 { margin: 0.35rem 0 0.75rem; font-size: 1.02rem; font-weight: 600; }
+  .status {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.22rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-lit);
+    color: var(--muted);
+  }
+  .status.done { color: var(--accent); border-color: rgba(78,201,176,0.45); background: rgba(78,201,176,0.1); }
+
+  .policy { color: var(--muted); max-width: 80ch; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0 3rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .foot-inner { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; justify-content: space-between; }
+
+  @media (max-width: 900px) {
+    .split { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>CISC 322/326 — Term Project</h1>
-  <p>Group 18 &middot; Studied System: WezTerm </p>
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span> CISC 322 / 326 &middot; Group 18</div>
+    <h1>Software Architecture of <span class="grad">WezTerm</span></h1>
+    <p class="lede">
+      A term-long study of the architecture of WezTerm — a GPU-accelerated, cross-platform
+      terminal emulator and multiplexer written in Rust. Conceptual architecture, concrete
+      architecture, and an enhancement proposal.
+    </p>
+    <div class="meta-strip">
+      <div>Course: <b>CISC 322/326 — Software / Game Architecture</b></div>
+      <div>Group: <b>18</b></div>
+      <div>Members: <b>6</b></div>
+      <div>Studied system: <b>WezTerm</b></div>
+    </div>
+  </div>
 </header>
 
-<main>
+<main class="wrap">
 
   <section>
-    <h2>Group Members</h2>
-    <table>
-      <tr><th>Last Name</th><th>First Name</th></tr>
-      <tr><td>Chant</td><td>Miles</td></tr>
-      <tr><td>Charest</td><td>Eric</td></tr>
-      <tr><td>Li Wu</td><td>Abraham</td></tr>
-      <tr><td>Macey</td><td>Owen</td></tr>
-      <tr><td>Papadopoulos</td><td>Alex</td></tr>
-      <tr><td>Van Mil</td><td>Benjamin</td></tr>
-    </table>
+    <div class="section-head">
+      <h2>Group Members</h2>
+      <span class="tag">6 contributors</span>
+    </div>
+    <div class="members">
+
+      <div class="member lead">
+        <div class="avatar">BV</div>
+        <div class="who">
+          <div class="name">Benjamin <span class="surname">Van Mil</span></div>
+          <span class="badge">Group Leader</span>
+        </div>
+      </div>
+
+      <div class="member presenter">
+        <div class="avatar">MC</div>
+        <div class="who">
+          <div class="name">Miles <span class="surname">Chant</span></div>
+          <span class="badge">Presenter</span>
+        </div>
+      </div>
+
+      <div class="member presenter">
+        <div class="avatar">EC</div>
+        <div class="who">
+          <div class="name">Eric <span class="surname">Charest</span></div>
+          <span class="badge">Presenter</span>
+        </div>
+      </div>
+
+      <div class="member dev">
+        <div class="avatar">AL</div>
+        <div class="who">
+          <div class="name">Abraham <span class="surname">Li Wu</span></div>
+          <span class="badge">Member</span>
+        </div>
+      </div>
+
+      <div class="member dev">
+        <div class="avatar">OM</div>
+        <div class="who">
+          <div class="name">Owen <span class="surname">Macey</span></div>
+          <span class="badge">Member</span>
+        </div>
+      </div>
+
+      <div class="member dev">
+        <div class="avatar">AP</div>
+        <div class="who">
+          <div class="name">Alex <span class="surname">Papadopoulos</span></div>
+          <span class="badge">Member</span>
+        </div>
+      </div>
+
+    </div>
   </section>
 
   <section>
-    <h2>Studied Software System</h2>
-    <p><strong>WezTerm</strong> — a GPU-accelerated cross-platform terminal emulator and multiplexer written in the Rust programming language</p>
+    <div class="section-head">
+      <h2>Studied System &amp; Resources</h2>
+      <span class="tag">wezterm</span>
+    </div>
 
+    <div class="split">
+
+      <div class="panel terminal">
+        <div class="term-bar">
+          <span class="light l1"></span><span class="light l2"></span><span class="light l3"></span>
+          <span class="title">group18 — wezterm — 120&times;30</span>
+        </div>
+        <div class="term-body">
+          <div class="line"><span class="prompt">$</span> <span class="cmd">wezterm --version</span></div>
+          <div class="line out">WezTerm — a GPU-accelerated cross-platform terminal emulator and multiplexer, written in <strong>Rust</strong>.</div>
+          <div class="line" style="margin-top:1rem;"><span class="prompt">$</span> <span class="cmd">cat why-this-system.txt</span></div>
+          <div class="line out">
+            WezTerm pairs a GPU rendering pipeline with a built-in multiplexer, a Lua
+            configuration layer, and an SSH/serial domain abstraction — a compact but
+            genuinely layered system, and a good subject for architectural recovery.
+          </div>
+          <div class="line" style="margin-top:1rem;"><span class="prompt">$</span> <span class="cursor"></span></div>
+
+          <div class="chips">
+            <span class="chip">Rust</span>
+            <span class="chip">GPU / WebGPU</span>
+            <span class="chip">Multiplexer</span>
+            <span class="chip">Lua config</span>
+            <span class="chip">Cross-platform</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="links">
+        <a class="link-row" href="https://github.com/wezterm/wezterm" target="_blank" rel="noopener">
+          <div>
+            <div class="label">Source Code</div>
+            <div class="url">github.com/wezterm/wezterm</div>
+          </div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="link-row" href="https://wezterm.org/" target="_blank" rel="noopener">
+          <div>
+            <div class="label">Official Website</div>
+            <div class="url">wezterm.org</div>
+          </div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="link-row" href="https://wezterm.org/config/files.html" target="_blank" rel="noopener">
+          <div>
+            <div class="label">Documentation</div>
+            <div class="url">wezterm.org/config/files.html</div>
+          </div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="link-row" href="https://github.com/wezterm/wezterm/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">
+          <div>
+            <div class="label">Contributing Guide</div>
+            <div class="url">github.com/wezterm/wezterm — CONTRIBUTING.md</div>
+          </div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="link-row" href="https://github.com/wezterm/wezterm/discussions" target="_blank" rel="noopener">
+          <div>
+            <div class="label">Discussion / Forums</div>
+            <div class="url">github.com/wezterm/wezterm/discussions</div>
+          </div>
+          <span class="arrow">&rarr;</span>
+        </a>
+        <a class="link-row" href="https://github.com/wezterm/wezterm/issues" target="_blank" rel="noopener">
+          <div>
+            <div class="label">Bug Tracker</div>
+            <div class="url">github.com/wezterm/wezterm/issues</div>
+          </div>
+          <span class="arrow">&rarr;</span>
+        </a>
+      </div>
+
+    </div>
   </section>
 
   <section>
-    <h2>Resources &amp; Links</h2>
-    <ul>
-      <li><strong>Source Code:</strong> <a href="https://github.com/wezterm/wezterm" target="_blank" rel="noopener">github.com/wezterm/wezterm</a></li>
-      <li><strong>Official Website:</strong> <a href="https://wezterm.org/" target="_blank" rel="noopener">wezterm.org</a></li>
-      <li><strong>Documentation:</strong> <a href="https://wezterm.org/config/files.html" target="_blank" rel="noopener">wezterm.org — Configuration Docs</a></li>
-      <li><strong>Contributing Guide:</strong> <a href="https://github.com/wezterm/wezterm/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">CONTRIBUTING.md</a></li>
-      <li><strong>Discussion / Forums:</strong> <a href="https://github.com/wezterm/wezterm/discussions" target="_blank" rel="noopener">GitHub Discussions</a></li>
-      <li><strong>Bug Tracker:</strong> <a href="https://github.com/wezterm/wezterm/issues" target="_blank" rel="noopener">GitHub Issues</a></li>
-    </ul>
+    <div class="section-head">
+      <h2>Project Deliverables</h2>
+      <span class="tag">4 milestones</span>
+    </div>
+    <div class="deliverables">
+      <div class="card">
+        <div class="code">A0</div>
+        <h3>Website &amp; Links</h3>
+        <span class="status done">This page</span>
+      </div>
+      <div class="card">
+        <div class="code">A1</div>
+        <h3>Conceptual Architecture Report</h3>
+        <span class="status">Coming soon</span>
+      </div>
+      <div class="card">
+        <div class="code">A2</div>
+        <h3>Concrete Architecture Report</h3>
+        <span class="status">Coming soon</span>
+      </div>
+      <div class="card">
+        <div class="code">A3</div>
+        <h3>Enhancement Proposal</h3>
+        <span class="status">Coming soon</span>
+      </div>
+    </div>
   </section>
 
   <section>
-    <h2>Project Deliverables</h2>
-    <ul>
-      <li><strong>A0</strong> — Website &amp; Links <span class="note">(this page)</span></li>
-      <li><strong>A1</strong> — Conceptual Architecture Report <span class="note">(coming soon)</span></li>
-      <li><strong>A2</strong> — Concrete Architecture Report <span class="note">(coming soon)</span></li>
-      <li><strong>A3</strong> — Enhancement Proposal <span class="note">(coming soon)</span></li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Group Policy</h2>
-    <p class="note">To be added — meeting cadence, communication channels, and task-division approach.</p>
+    <div class="section-head">
+      <h2>Group Policy</h2>
+      <span class="tag">draft</span>
+    </div>
+    <div class="panel">
+      <p class="policy">
+        To be added — meeting cadence, communication channels, and task-division approach.
+      </p>
+    </div>
   </section>
 
 </main>
 
 <footer>
-  CISC 322/326 Software / Game Architecture &mdash; Group 18
+  <div class="wrap foot-inner">
+    <div>CISC 322/326 — Software / Game Architecture</div>
+    <div>Group 18 &middot; Queen's University</div>
+  </div>
 </footer>
 
 </body>

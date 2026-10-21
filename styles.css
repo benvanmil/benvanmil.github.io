@@ -356,6 +356,10 @@ section { margin-bottom: clamp(3rem, 5vw, 4.5rem); }
 }
 .status.done { color: var(--accent); border-color: rgba(78,201,176,0.45); background: rgba(78,201,176,0.1); }
 a.card { display: block; color: inherit; text-decoration: none; }
+.card[aria-current="page"] {
+  border-color: color-mix(in srgb, var(--accent-3) 55%, transparent);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent-3) 10%, var(--panel-2)), var(--panel));
+}
 
 /* half-height tiles used as navigation on deliverable pages */
 .deliverables.compact {
@@ -382,10 +386,6 @@ a.card { display: block; color: inherit; text-decoration: none; }
   text-overflow: ellipsis;
 }
 .deliverables.compact .status { justify-self: start; font-size: 0.62rem; padding: 0.12rem 0.5rem; }
-.deliverables.compact .card[aria-current="page"] {
-  border-color: color-mix(in srgb, var(--accent-3) 55%, transparent);
-  background: linear-gradient(160deg, color-mix(in srgb, var(--accent-3) 10%, var(--panel-2)), var(--panel));
-}
 
 /* ---------- embedded deliverables ---------- */
 

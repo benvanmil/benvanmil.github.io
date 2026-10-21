@@ -47,17 +47,6 @@ header {
   background: linear-gradient(180deg, rgba(18, 26, 36, 0.85), rgba(10, 14, 20, 0.2));
   padding: clamp(2.5rem, 6vw, 5rem) 0 clamp(2rem, 4vw, 3.5rem);
 }
-.back {
-  display: block;
-  width: fit-content;
-  margin-bottom: 1.5rem;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.16s ease;
-}
-.back:hover { color: var(--accent-2); }
 .jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
 .jump a {
   font-family: var(--mono);
@@ -356,6 +345,36 @@ section { margin-bottom: clamp(3rem, 5vw, 4.5rem); }
 .status.done { color: var(--accent); border-color: rgba(78,201,176,0.45); background: rgba(78,201,176,0.1); }
 a.card { display: block; color: inherit; text-decoration: none; }
 
+/* half-height tiles used as navigation on deliverable pages */
+.deliverables.compact {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+}
+.deliverables.compact .card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 0.9rem;
+  row-gap: 0.25rem;
+  padding: 1rem;
+}
+.deliverables.compact .card:hover { transform: translateY(-2px); }
+.deliverables.compact .code { grid-row: 1 / 3; font-size: 1.3rem; }
+.deliverables.compact h3 {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.deliverables.compact .status { justify-self: start; font-size: 0.62rem; padding: 0.12rem 0.5rem; }
+.deliverables.compact .card[aria-current="page"] {
+  border-color: color-mix(in srgb, var(--accent-3) 55%, transparent);
+  background: linear-gradient(160deg, color-mix(in srgb, var(--accent-3) 10%, var(--panel-2)), var(--panel));
+}
+
 /* ---------- embedded deliverables ---------- */
 
 .viewers { display: grid; gap: clamp(1.5rem, 3vw, 2.25rem); }
@@ -463,6 +482,9 @@ footer {
 }
 .foot-inner { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; justify-content: space-between; }
 
+@media (max-width: 1100px) {
+  .deliverables.compact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @media (max-width: 900px) {
   .split { grid-template-columns: 1fr; }
 }
